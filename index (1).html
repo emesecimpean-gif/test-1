@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EN - test 1 (LR - secția maghiară)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: o singură coloană de tip foaie de examen; textele-suport în cadre punctate, cerințele numerotate cu punctaj aliniat la dreapta */
+:root{
+  --paper:#ffffff; --desk:#eef1f5; --ink:#1c2230; --muted:#5b6476; --rule:#cdd3de;
+  --pen:#1f4fa3; --pen-soft:#e7eefb; --tint:#f5f7fa; --ok:#2e7d4f; --bad:#b3362b;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#1b2029; --desk:#12161d; --ink:#e6e9ef; --muted:#9aa3b4; --rule:#353d4b;
+  --pen:#8fb2f2; --pen-soft:#22324f; --tint:#222833; --ok:#6cc495; --bad:#f08a7e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1b2029; --desk:#12161d; --ink:#e6e9ef; --muted:#9aa3b4; --rule:#353d4b;
+  --pen:#8fb2f2; --pen-soft:#22324f; --tint:#222833; --ok:#6cc495; --bad:#f08a7e; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--desk);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.sheet{max-width:860px;margin:0 auto;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:clamp(20px,5vw,48px)}
+header.top{display:flex;flex-direction:column;gap:6px;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4.5vw,36px);line-height:1.15;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:0}
+.rules{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.rules li{background:var(--tint);border:1px solid var(--rule);border-radius:999px;padding:4px 12px;font-size:14px}
+.student{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px}
+.student label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:8px 10px;width:100%}
+textarea{font-family:var(--serif);font-size:16px;line-height:1.7;resize:vertical;min-height:88px}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--pen);outline-offset:1px;border-color:var(--pen)}
+.subject{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:40px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--ink)}
+.subject h2{font-size:18px;letter-spacing:.06em;text-transform:uppercase;margin:0}
+.pts{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap;color:var(--muted);font-size:14px}
+.lead{font-weight:600;margin:0 0 12px}
+.source{border:1.5px dashed var(--rule);border-radius:6px;padding:18px clamp(14px,3vw,24px);margin-bottom:20px}
+.source h3{font-size:15px;margin:0 0 8px}
+.source p{font-family:var(--serif);margin:0 0 .7em;text-indent:1.6em;max-width:68ch}
+.source p.d{text-indent:0;padding-left:1.6em}
+.cite{text-align:right;font-family:var(--serif);font-size:14px;color:var(--muted);margin-top:8px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0 16px}
+.facts div{background:var(--tint);border-left:3px solid var(--pen);padding:12px 14px;font-size:14.5px;display:flex;flex-direction:column;gap:10px}
+.facts p{margin:0;text-indent:0;font-family:var(--sans)}
+.part{font-family:var(--serif);font-size:22px;font-weight:600;margin:28px 0 8px}
+.q{display:grid;grid-template-columns:2.2em 1fr;gap:4px 8px;padding:18px 0;border-top:1px solid var(--rule)}
+.q>.n{font-weight:700;color:var(--pen);font-variant-numeric:tabular-nums}
+.q>.body{min-width:0;display:flex;flex-direction:column;gap:10px}
+.qhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.qhead p{margin:0}
+.opts{display:grid;gap:6px}
+.opts label{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border:1px solid var(--rule);border-radius:4px;cursor:pointer}
+.opts label:hover{border-color:var(--pen)}
+.opts input{accent-color:var(--pen);margin-top:4px}
+.opts label:has(input:checked){background:var(--pen-soft);border-color:var(--pen)}
+.opts b{font-weight:600;min-width:1.2em}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:left}
+th{background:var(--tint);font-weight:600}
+td.c,th.c{text-align:center;width:92px}
+td.c input{accent-color:var(--pen);width:18px;height:18px}
+.dict{background:var(--tint);border:1px solid var(--rule);padding:12px 14px;font-family:var(--serif);font-size:15px}
+.dict cite{display:block;font-size:13px;color:var(--muted);margin-top:6px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;align-self:flex-end}
+.counter.ok{color:var(--ok)}
+.req{margin:0;padding-left:1.2em;font-size:15px}
+.note{font-size:14px;color:var(--muted);margin:0}
+.fill{font-family:var(--serif);line-height:2.2}
+.fill input{width:auto;min-width:9em;display:inline-block;padding:3px 8px}
+.pair{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center}
+u{text-decoration-thickness:1.5px;text-underline-offset:3px}
+.bar{position:sticky;bottom:12px;margin:28px auto 0;max-width:860px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:8px 8px 8px 18px;font-size:14px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.bar span{color:var(--muted)}
+button{font:inherit;font-weight:600;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:7px 16px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+button.primary{background:var(--pen);border-color:var(--pen);color:var(--paper)}
+#copyOut{width:100%;margin-top:8px;font-family:var(--sans);font-size:13px;min-height:120px}
+button.danger:hover{border-color:#c0392b;color:#c0392b}
+.mode{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:16px;padding:12px 14px;background:var(--pen-soft);border-radius:6px;font-size:14px}
+.chip{font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--pen);color:var(--paper);border-radius:999px;padding:3px 10px}
+.score-total{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:600}
+.grade{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:flex-start;background:var(--tint);border:1px dashed var(--rule);border-radius:4px;padding:8px 10px;font-size:14px}
+.grade[hidden]{display:none!important}
+.grade .lbl{font-weight:600;color:var(--pen);white-space:nowrap;padding-top:5px}
+.grade input[type=number]{font:inherit;width:4.2em;padding:4px 6px;border:1px solid var(--rule);border-radius:4px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+.grade .max{color:var(--muted);padding-top:5px;font-variant-numeric:tabular-nums}
+.grade textarea{flex:1 1 220px;min-height:36px;font-family:var(--sans);font-size:14px;line-height:1.45;padding:5px 8px}
+.grade .ro{flex:1 1 220px;padding-top:5px;white-space:pre-wrap}
+.teacher-only[hidden]{display:none!important}
+.testno{margin:6px 0 0;align-self:flex-start;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--pen);border:1.5px solid var(--pen);border-radius:4px;padding:3px 12px}
+.byline{margin:36px 0 0;padding-top:14px;border-top:1px solid var(--rule);text-align:right;font-size:13px;color:var(--muted);letter-spacing:.04em}
+.byline span{font-family:var(--serif);font-style:italic;font-weight:600;font-size:15px;color:var(--pen);letter-spacing:.06em}
+.key{border-left:3px solid var(--ok);background:var(--tint);padding:8px 12px;font-size:14px;border-radius:0 4px 4px 0}
+.key[hidden]{display:none!important}
+.key b.h{color:var(--ok);display:block;margin-bottom:2px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.key ul{margin:4px 0 0;padding-left:1.2em}
+.verdict{font-weight:700;font-size:13px}
+.verdict.r{color:var(--ok)} .verdict.w{color:var(--bad)}
+.opts label.right{border-color:var(--ok);box-shadow:inset 3px 0 0 var(--ok)}
+.opts label.wrong{border-color:var(--bad);box-shadow:inset 3px 0 0 var(--bad)}
+td.right{background:color-mix(in srgb,var(--ok) 16%,transparent)}
+td.wrong{background:color-mix(in srgb,var(--bad) 16%,transparent)}
+.mode button{padding:5px 12px;font-size:13px}
+.mode button[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--paper)}
+@media (max-width:520px){.q{grid-template-columns:1fr}.pair{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div class="sheet">
+<header class="top">
+  <span class="eyebrow">Evaluarea Națională · clasa a VIII-a</span>
+  <h1>Limba și literatura română</h1>
+  <p class="sub">pentru școlile și secțiile cu predare în limba maghiară</p>
+  <p class="testno">Test 1</p>
+  <ul class="rules">
+    <li>Toate subiectele sunt obligatorii.</li>
+    <li>Se acordă zece puncte din oficiu.</li>
+    <li>Timpul de lucru efectiv este de două ore.</li>
+  </ul>
+  <div class="student">
+    <label for="nume">Numele și prenumele<input type="text" id="nume" data-save></label>
+    <label for="scoala">Școala<input type="text" id="scoala" data-save></label>
+    <label for="clasa">Clasa / data<input type="text" id="clasa" data-save></label>
+  </div>
+  <div class="mode" id="mode">
+    <span class="chip" id="role">Se conectează…</span>
+    <span id="modeText">Răspunsurile se pregătesc pentru sincronizare.</span>
+    <span class="score-total" id="total" hidden></span>
+    <span class="teacher-only" hidden style="display:flex;gap:6px;flex-wrap:wrap">
+      <input type="password" id="code" placeholder="Cod profesor" aria-label="Cod profesor" style="font:inherit;font-size:13px;width:9em;padding:4px 10px;border:1px solid var(--rule);border-radius:999px;background:var(--paper);color:var(--ink)">
+      <button type="button" id="showKey" aria-pressed="false">Arată baremul elevului</button>
+      <button type="button" id="autoScore">Punctează automat itemii închiși</button>
+    </span>
+  </div>
+</header>
+
+<div class="subject"><h2>Subiectul I</h2><span class="pts">70 de puncte</span></div>
+<p class="lead">Citește cu atenție textele de mai jos.</p>
+
+<section class="source">
+  <h3>Textul 1</h3>
+  <p>Pisicile sunt unele dintre cele mai populare și mai iubite animale de companie din întreaga lume. Având mișcări grațioase, ochi expresivi și un comportament adesea misterios, pisicile au cucerit inimile oamenilor, care, timp de secole, le-au îngrijit și le-au protejat.</p>
+  <p>Au fost domesticite în Egiptul antic pentru a proteja proviziile de cereale, fiind vânători pricepuți. Cu timpul, pisicile au devenit simboluri culturale, atât în Europa, cât și în Asia.</p>
+  <p>Pisicile sunt cunoscute pentru independența și personalitatea lor unică. Ele comunică prin diverse mijloace: miros, mieunat, limbajul corpului. O pisică bine îngrijită poate trăi în medie între 12 și 15 ani, deși unele pot atinge vârsta maximă de 20 de ani.</p>
+  <p>Pisicile sunt într-adevăr creaturi fascinante. Iată câteva dintre cele mai bine păstrate secrete ale lor:</p>
+  <div class="facts">
+    <div><p>~ Mustățile pisicilor sunt extrem de sensibile și pot detecta chiar și cele mai ușoare schimbări ale curenților de aer, ajutându-le să se orienteze în spații întunecate sau strâmte.</p><p>~ Pisicile au unul dintre cele mai bune simțuri auditive din lumea animală, pot auzi sunete cu o frecvență mult mai înaltă decât câinii.</p></div>
+    <div><p>~ Se crede că pisicile pot simți cutremurele cu câteva minute sau chiar cu câteva ore înainte de a se întâmpla pentru că simt micile vibrații.</p><p>~ Pisicile par să aibă o noțiune a timpului, devenind agitate în jurul momentului obișnuit de hrănire sau așteptându-și stăpânul să vină acasă la o anumită oră.</p></div>
+    <div><p>~ Un an uman nu este echivalent cu șapte ani de viață pentru o pisică. În realitate, o pisică de un an se aseamănă cu un adolescent.</p><p>~ Unele pisici albe cu ochi albaștri pot avea probleme de auz, o trăsătură genetică interesantă care nu se întâlnește la pisicile cu blana de altă culoare.</p></div>
+  </div>
+  <p>În zilele noastre, ele sunt considerate prieteni grijulii, loiali, care aduc bucurie în viețile oamenilor. Studiile au arătat că interacțiunea cu pisicile poate reduce stresul și neliniștea, îmbunătățind sănătatea și starea de bine a proprietarilor.</p>
+  <div class="cite">după <i>Cele mai bine păstrate secrete ale pisicilor</i>, www.secrete.ro</div>
+</section>
+
+<section class="source">
+  <h3>Textul 2</h3>
+  <p>Era o seară caldă de vară. Prea caldă parcă. Maria, o fetiță de vreo 10-11 ani, se odihnea pe o buturugă așezată în fața casei în care trăia cu mama și tata. Pe buturuga aceea tăia tata lemnele cu care făceau focul în vatra din mijlocul casei. Și ea a învățat să taie lemne, deși era încă mică, tare slăbuță, iar toporul era mare și greu. A tăiat lemne și în seara aceea și le-a cărat cu greu lângă sobă. Tata era încă în pădurea din apropiere, strângea fructe, pe care le vindea în piața din oraș. Uneori rămânea mai mult acolo și venea acasă seara târziu. Mama creștea câteva animale pe lângă căsuță și <u>cultiva</u> legume într-o grădină mică. Maria era slăbuță. Ochii albaștri ca cerul verii îi erau aproape ascunși de părul blond. Purta un fel de rochie.</p>
+  <p>Acum, fetița se odihnea pe buturugă. Își freca palmele, care o dureau de la coada toporului. Se întunecase. În curând urma să mănânce o fiertură cu legume după care o aștepta pătuțul ei.</p>
+  <p>Maria s-a ridicat de pe buturugă și, înainte de a intra în casă, a mai privit o dată cerul negru, plin de stele. Deveni atentă atunci când observă că una dintre ele se mișcă. Da, se mișca! A coborât încet spre pământ. Apoi, a prins viteză și cu cât ajungea mai jos, cu atât se transforma într-o bilă de foc tot mai mare, aruncată parcă de vreun uriaș din cer. Copila zâmbi și se gândi:</p>
+  <p class="d">― O stea căzătoare!</p>
+  <p>Și și-a pus o dorință. A intrat după aceea în căsuță, s-a așezat la masă, iar mama i-a pus în față o farfurie făcută din lut ars, plină cu fiertură. A sărutat-o pe părul blond și a aruncat un lemn pe focul care ardea în vatra aflată în mijlocul casei. […]</p>
+  <p>Dimineața, Maria s-a trezit din cauza unui zgomot:</p>
+  <p class="d">― Tata, s-a auzit ceva la ușă!</p>
+  <p class="d">― Este vântul, Maria.</p>
+  <p class="d">― Este un pui de pisică! E doar un pui slab. Uită-te la el, mama, nici blană nu mai are pe spate. Vă rog, nu-l alungați! Are nevoie de ajutor. E ca un copil, lăsați-mă să am grijă de el, să-l fac bine. Pot să-l fac bine. O să-i dau numele Bebe!</p>
+  <p>S-au privit în ochi unul pe celălalt. Tata a spus doar atât:</p>
+  <p class="d">― Nu intră în casă. Dacă vrei să ai grijă de el, e treaba ta unde o faci.</p>
+  <p class="d">― Da, tata, da, o să am mare grijă, mulțumesc! Îți mulțumesc și ție, mami! Vă mulțumesc, m-ați făcut fericită! O să am grijă de Bebe și promit că nu ne va face probleme!</p>
+  <p>Bebe îi privea un pic înspăimântat. Simțea că fetița l-a apărat. Se priveau unul pe celălalt cu ochi mari. Doi ochi albaștri priveau doi ochi galben-portocalii cu pupile negre și invers.</p>
+  <p>Mariei îi era milă de Bebe. Îl privea și îi spunea:</p>
+  <p class="d">― Ce-i cu tine? Cum ai ajuns aici? De unde ai venit? Ce mă fac eu cu tine? Nici blană n-ai pe spate! Și uite, îți ies coastele prin piele de slab ce ești... dar voi încerca să am grijă de tine și o să-ți dau din ce primesc eu. Aoleu, poate ți-e foame! Mama face dimineața terci de ovăz! Îți aduc și ție un pic. Nu pleca, așteaptă-mă aici!</p>
+  <div class="cite">după Alex Donovici, <i>Învățătorii de Grijă. Salvatorii</i></div>
+</section>
+
+<p class="lead">Scrie răspunsul la cerințele de mai jos, cu privire la textele date.</p>
+
+<div class="part">A.</div>
+
+<div class="q"><span class="n">1.</span><div class="body">
+  <div class="qhead"><p>Încercuiește litera corespunzătoare răspunsului corect, valorificând informațiile din textul 1.<br><b>Scopul pentru care au fost domesticite pisicile în Egiptul antic este</b></p><span class="pts">2 p</span></div>
+  <div class="opts" data-group="a1">
+    <label><input type="radio" name="a1" value="a" data-save><b>a.</b> anunțarea din timp a cutremurelor.</label>
+    <label><input type="radio" name="a1" value="b" data-save><b>b.</b> indicarea cu exactitate a timpului.</label>
+    <label><input type="radio" name="a1" value="c" data-save><b>c.</b> orientarea în spații întunecate.</label>
+    <label><input type="radio" name="a1" value="d" data-save><b>d.</b> protejarea proviziilor de cereale.</label>
+  </div></div></div>
+
+<div class="q"><span class="n">2.</span><div class="body">
+  <div class="qhead"><p>Încercuiește litera corespunzătoare răspunsului corect, valorificând informațiile din textul 1.<br><b>Pisicile pot auzi sunete cu o frecvență mult mai înaltă decât</b></p><span class="pts">2 p</span></div>
+  <div class="opts">
+    <label><input type="radio" name="a2" value="a" data-save><b>a.</b> caii.</label>
+    <label><input type="radio" name="a2" value="b" data-save><b>b.</b> câinii.</label>
+    <label><input type="radio" name="a2" value="c" data-save><b>c.</b> iepurii.</label>
+    <label><input type="radio" name="a2" value="d" data-save><b>d.</b> șoarecii.</label>
+  </div></div></div>
+
+<div class="q"><span class="n">3.</span><div class="body">
+  <div class="qhead"><p>Încercuiește litera corespunzătoare răspunsului corect, valorificând informațiile din textul 2.<br><b>Tatăl fetiței adună din pădure</b></p><span class="pts">2 p</span></div>
+  <div class="opts">
+    <label><input type="radio" name="a3" value="a" data-save><b>a.</b> ciuperci.</label>
+    <label><input type="radio" name="a3" value="b" data-save><b>b.</b> fructe.</label>
+    <label><input type="radio" name="a3" value="c" data-save><b>c.</b> legume.</label>
+    <label><input type="radio" name="a3" value="d" data-save><b>d.</b> lemne.</label>
+  </div></div></div>
+
+<div class="q"><span class="n">4.</span><div class="body">
+  <div class="qhead"><p>Încercuiește litera corespunzătoare răspunsului corect, valorificând informațiile din textul 2.<br><b>Zgomotul auzit de Maria la ușă este produs de</b></p><span class="pts">2 p</span></div>
+  <div class="opts">
+    <label><input type="radio" name="a4" value="a" data-save><b>a.</b> crengile copacilor.</label>
+    <label><input type="radio" name="a4" value="b" data-save><b>b.</b> picăturile de ploaie.</label>
+    <label><input type="radio" name="a4" value="c" data-save><b>c.</b> puiul de pisică.</label>
+    <label><input type="radio" name="a4" value="d" data-save><b>d.</b> vântul puternic.</label>
+  </div></div></div>
+
+<div class="q"><span class="n">5.</span><div class="body">
+  <div class="qhead"><p>Notează „X” în dreptul fiecărui enunț, pentru a stabili dacă acesta este „adevărat” sau „fals”, valorificând informațiile din textele date.</p><span class="pts">6 p</span></div>
+  <div class="tw"><table>
+    <tr><th>Textul 1 — Enunțul</th><th class="c">Adevărat</th><th class="c">Fals</th></tr>
+    <tr><td>Pisicile sunt considerate simboluri culturale.</td><td class="c"><input type="radio" name="tf1" value="A" aria-label="Adevărat" data-save></td><td class="c"><input type="radio" name="tf1" value="F" aria-label="Fals" data-save></td></tr>
+    <tr><td>Pisicile comunică doar prin mieunat.</td><td class="c"><input type="radio" name="tf2" value="A" aria-label="Adevărat" data-save></td><td class="c"><input type="radio" name="tf2" value="F" aria-label="Fals" data-save></td></tr>
+    <tr><td>Pisicile pot trăi până la maximum 15 ani.</td><td class="c"><input type="radio" name="tf3" value="A" aria-label="Adevărat" data-save></td><td class="c"><input type="radio" name="tf3" value="F" aria-label="Fals" data-save></td></tr>
+    <tr><th>Textul 2 — Enunțul</th><th class="c">Adevărat</th><th class="c">Fals</th></tr>
+    <tr><td>Maria locuiește cu părinții ei în apropierea unei păduri.</td><td class="c"><input type="radio" name="tf4" value="A" aria-label="Adevărat" data-save></td><td class="c"><input type="radio" name="tf4" value="F" aria-label="Fals" data-save></td></tr>
+    <tr><td>Seara, copila mănâncă terci de ovăz.</td><td class="c"><input type="radio" name="tf5" value="A" aria-label="Adevărat" data-save></td><td class="c"><input type="radio" name="tf5" value="F" aria-label="Fals" data-save></td></tr>
+    <tr><td>Când l-a găsit Maria, puiul de pisică era foarte bine îngrijit.</td><td class="c"><input type="radio" name="tf6" value="A" aria-label="Adevărat" data-save></td><td class="c"><input type="radio" name="tf6" value="F" aria-label="Fals" data-save></td></tr>
+  </table></div></div></div>
+
+<div class="q"><span class="n">6.</span><div class="body">
+  <div class="qhead"><p>Explică, în unu – trei enunțuri, un motiv pentru care Maria zâmbește, valorificând textul 2.</p><span class="pts">6 p</span></div>
+  <textarea id="a6" data-save></textarea></div></div>
+
+<div class="q"><span class="n">7.</span><div class="body">
+  <div class="qhead"><p>Prezintă, în 20 – 40 de cuvinte, o trăsătură a textului narativ literar, valorificând textul 2.</p><span class="pts">6 p</span></div>
+  <textarea id="a7" data-save data-min="20" data-max="40"></textarea><span class="counter"></span></div></div>
+
+<div class="q"><span class="n">8.</span><div class="body">
+  <div class="qhead"><p>Precizează o asemănare și o deosebire de conținut între cele două texte.</p><span class="pts">6 p</span></div>
+  <div class="pair"><span>Asemănare:</span><textarea id="a8a" data-save style="min-height:60px"></textarea><span>Deosebire:</span><textarea id="a8b" data-save style="min-height:60px"></textarea></div></div></div>
+
+<div class="q"><span class="n">9.</span><div class="body">
+  <div class="qhead"><p>Crezi că un copil de vârsta ta poate avea grijă de un animal de companie? Motivează-ți răspunsul, în minimum 30 de cuvinte, valorificând textul 2.</p><span class="pts">6 p</span></div>
+  <textarea id="a9" data-save data-min="30" style="min-height:130px"></textarea><span class="counter"></span></div></div>
+
+<div class="part">B.</div>
+
+<div class="q"><span class="n">1.</span><div class="body">
+  <div class="qhead"><p>Transcrie, din articolul de dicționar, sensul pe care îl are cuvântul subliniat în textul 2 („<u>cultiva</u> legume”).</p><span class="pts">2 p</span></div>
+  <div class="dict"><b>CULTIVÁ</b>, cultív, vb. I. <b>1.</b> Tranz. A lucra pământul spre a-l face să dea roade. ♦ A semăna plante; a îngriji și a recolta plante agricole. <b>2.</b> Tranz. Fig. A se ocupa cu râvnă de ceva; a face să crească, să se dezvolte. ♦ A căuta să câștige sau să mențină prietenia, bunăvoința, încrederea cuiva. <b>3.</b> Refl. și tranz. A (se) instrui. – Din fr. <i>cultiver</i>, lat. <i>cultivare</i>.<cite>***, Dicționarul explicativ al limbii române</cite></div>
+  <textarea id="b1" data-save style="min-height:60px"></textarea></div></div>
+
+<div class="q"><span class="n">2.</span><div class="body">
+  <div class="qhead"><p>Încercuiește litera corespunzătoare răspunsului corect.<br><b>Numărul literelor este egal cu numărul sunetelor în cuvântul:</b></p><span class="pts">2 p</span></div>
+  <div class="opts">
+    <label><input type="radio" name="b2" value="a" data-save><b>a.</b> „ajungea”.</label>
+    <label><input type="radio" name="b2" value="b" data-save><b>b.</b> „ghearele”.</label>
+    <label><input type="radio" name="b2" value="c" data-save><b>c.</b> „încerca”.</label>
+    <label><input type="radio" name="b2" value="d" data-save><b>d.</b> „rochie”.</label>
+  </div></div></div>
+
+<div class="q"><span class="n">3.</span><div class="body">
+  <div class="qhead"><p>Încercuiește litera corespunzătoare răspunsului corect.<br><b>Sunt antonime cele două cuvinte subliniate în secvențele din seria:</b></p><span class="pts">2 p</span></div>
+  <div class="opts">
+    <label><input type="radio" name="b3" value="a" data-save><b>a.</b> <span>„se <u>transforma</u> într-o bilă de foc”; Grădina mamei se <u>schimba</u> în fiecare an.</span></label>
+    <label><input type="radio" name="b3" value="b" data-save><b>b.</b> <span>„fetița se <u>odihnea</u> pe buturugă”; După ce se <u>obosea</u> la sală, mergea acasă.</span></label>
+    <label><input type="radio" name="b3" value="c" data-save><b>c.</b> <span>„În curând <u>urma</u> să mănânce”; Pisica a pierdut <u>urma</u> șoarecelui din grădină.</span></label>
+    <label><input type="radio" name="b3" value="d" data-save><b>d.</b> <span>„Mama <u>creștea</u> câteva animale”; Aluatul pentru pâine <u>creștea</u> în bucătărie.</span></label>
+  </div></div></div>
+
+<div class="q"><span class="n">4.</span><div class="body">
+  <div class="qhead"><p>Alcătuiește un enunț în care adverbul din secvența „A coborât încet spre pământ” să fie utilizat ca adjectiv.</p><span class="pts">4 p</span></div>
+  <div class="pair"><label for="b4a">adverbul:</label><input type="text" id="b4a" data-save><label for="b4b">enunțul:</label><input type="text" id="b4b" data-save></div></div></div>
+
+<div class="q"><span class="n">5.</span><div class="body">
+  <div class="qhead"><p>Rescrie secvența „pisicile au cucerit inimile oamenilor”, trecând substantivele la numărul singular.</p><span class="pts">4 p</span></div>
+  <input type="text" id="b5" data-save></div></div>
+
+<div class="q"><span class="n">6.</span><div class="body">
+  <div class="qhead"><p>Notează funcția sintactică a cuvintelor subliniate în secvența: „Pe <u>buturuga</u> aceea tăia tata <u>lemnele</u> cu care <u>făceau</u> focul în vatra din mijlocul <u>casei</u>.”</p><span class="pts">4 p</span></div>
+  <div class="tw"><table>
+    <tr><th>Cuvântul</th><th>Funcția sintactică</th></tr>
+    <tr><td>1. buturuga</td><td><input type="text" id="b6a" aria-label="buturuga" data-save></td></tr>
+    <tr><td>2. lemnele</td><td><input type="text" id="b6b" aria-label="lemnele" data-save></td></tr>
+    <tr><td>3. făceau</td><td><input type="text" id="b6c" aria-label="făceau" data-save></td></tr>
+    <tr><td>4. casei</td><td><input type="text" id="b6d" aria-label="casei" data-save></td></tr>
+  </table></div></div></div>
+
+<div class="q"><span class="n">7.</span><div class="body">
+  <div class="qhead"><p>Completează spațiile libere cu forma corectă a cuvintelor subliniate în următoarele enunțuri, reprezentând mesajul unui iubitor de animale.</p><span class="pts">6 p</span></div>
+  <p class="dict" style="margin:0">Zilnic, voi da pisicii <u>porțile / porțiile</u> (1) atent cântărite de mâncare <u>uscată / uscate</u> (2). Astfel, poate <u>să crească / să crește</u> (3) mai repede.</p>
+  <p class="fill" style="margin:0">Zilnic, voi da pisicii <input type="text" id="b7a" aria-label="(1)" data-save> (1) atent cântărite de mâncare <input type="text" id="b7b" aria-label="(2)" data-save> (2). Astfel, poate <input type="text" id="b7c" aria-label="(3)" data-save> (3) mai repede.</p></div></div>
+
+<div class="q"><span class="n">8.</span><div class="body">
+  <div class="qhead"><p>Imaginează-ți că vezi și tu, la fel ca Maria, o stea căzătoare și îți pui o dorință. Scrie, în minimum cinci cuvinte, această dorință, utilizând un verb la modul condițional-optativ și un substantiv în cazul vocativ, pe care le vei sublinia.</p><span class="pts">8 p</span></div>
+  <textarea id="b8" data-save data-min="5" style="min-height:70px"></textarea><span class="counter"></span>
+  <div class="pair"><label for="b8v">verbul (condițional-optativ):</label><input type="text" id="b8v" data-save><label for="b8s">substantivul (vocativ):</label><input type="text" id="b8s" data-save></div></div></div>
+
+<div class="subject"><h2>Subiectul al II-lea</h2><span class="pts">20 de puncte</span></div>
+
+<div class="q"><span class="n">1.</span><div class="body">
+  <div class="qhead"><p>Prezintă, în minimum 30 de cuvinte, o valoare identificată în textul 1, valorificând textul indicat și experiența culturală (literatură, pictură și alte arte, obiceiuri/tradiții, personalități etc.) sau experiența personală într-un context cultural.</p><span class="pts">6 p</span></div>
+  <textarea id="c1" data-save data-min="30" style="min-height:140px"></textarea><span class="counter"></span></div></div>
+
+<div class="q"><span class="n">2.</span><div class="body">
+  <div class="qhead"><p>Scrie o compunere de 70 – 130 de cuvinte, în care să o caracterizezi pe Maria, personajul din textul 2.</p><span class="pts">14 p</span></div>
+  <p class="note">În redactarea răspunsului tău, trebuie:</p>
+  <ul class="req">
+    <li>să precizezi două trăsături ale personajului indicat;</li>
+    <li>să prezinți cele două trăsături precizate prin câte o secvență comentată;</li>
+    <li>să menționezi două mijloace diferite de caracterizare prin care se evidențiază trăsăturile precizate;</li>
+    <li>să corelezi o valoare transmisă prin acest personaj cu o valoare importantă pentru tine, justificându-ți răspunsul.</li>
+  </ul>
+  <p class="note">Pentru conținutul compunerii vei primi 10 puncte, iar pentru redactarea acesteia, 4 puncte (unitatea compoziției; coerența textului; registrul de comunicare, stilul și vocabularul adecvate conținutului; respectarea normelor de exprimare corectă, de punctuație și a ortografiei).</p>
+  <p class="note"><b>Notă!</b> Punctajul pentru redactare se acordă numai în cazul în care compunerea are minimum 70 de cuvinte și dezvoltă subiectul propus. Compunerea nu va avea titlu sau motto.</p>
+  <textarea id="c2" data-save data-min="70" data-max="130" style="min-height:260px"></textarea><span class="counter"></span></div></div>
+<p class="byline">Material realizat de <span>EC</span></p>
+</div>
+
+<div class="bar" role="region" aria-label="Salvare">
+  <span id="status">Răspunsurile se salvează automat.</span>
+  <span style="display:flex;gap:6px">
+    <button type="button" id="copyAll" class="primary">Copiază răspunsurile</button>
+    <button type="button" id="clear" class="danger">Șterge răspunsurile</button>
+    <button type="button" id="confirm" hidden>Da, șterge tot</button>
+  </span>
+  <textarea id="copyOut" readonly hidden aria-label="Răspunsurile tale"></textarea>
+</div>
+
+<script>
+(function(){
+  const LKEY='en8-romana-raspunsuri';
+  const els=[...document.querySelectorAll('[data-save]')];
+  const $=id=>document.getElementById(id);
+  const status=$('status'), role=$('role'), modeText=$('modeText'), totalEl=$('total');
+  const words=t=>(t.trim().match(/\S+/g)||[]).length;
+
+  /* --- contor de cuvinte --- */
+  function count(ta){
+    const c=ta.nextElementSibling; if(!c||!c.classList.contains('counter'))return;
+    const n=words(ta.value),min=+ta.dataset.min||0,max=+ta.dataset.max||0;
+    c.textContent=`${n} ${n===1?'cuvânt':'cuvinte'} · cerință: ${max?min+'–'+max:'minimum '+min}`;
+    c.classList.toggle('ok',n>=min&&(!max||n<=max));
+  }
+  const recount=()=>document.querySelectorAll('textarea[data-min]').forEach(count);
+
+  /* --- citire / aplicare răspunsuri --- */
+  function collect(){const d={};els.forEach(el=>{if(el.type==='radio'){if(el.checked)d[el.name]=el.value}else if(el.value)d[el.id]=el.value});return d}
+  function apply(d){d=d||{};els.forEach(el=>{
+    if(el===document.activeElement&&el.type!=='radio')return;
+    if(el.type==='radio')el.checked=d[el.name]===el.value; else el.value=d[el.id]??'';});recount();if(typeof renderKey==='function')renderKey()}
+
+  /* --- baremul (q1–q9 = A1–A9, q10–q17 = B1–B8, q18–q19 = Subiectul II) --- */
+  const KEY={
+    q1:{radio:'a1',ans:'d',txt:'Răspuns corect: d (2 p).'},
+    q2:{radio:'a2',ans:'b',txt:'Răspuns corect: b (2 p).'},
+    q3:{radio:'a3',ans:'b',txt:'Răspuns corect: b (2 p).'},
+    q4:{radio:'a4',ans:'c',txt:'Răspuns corect: c (2 p).'},
+    q5:{tf:{tf1:'A',tf2:'F',tf3:'F',tf4:'A',tf5:'F',tf6:'F'},txt:'Câte 1 p pentru fiecare enunț: A, F, F (textul 1); A, F, F (textul 2). Două bife pe același rând = 0 p.'},
+    q6:{list:['precizarea motivului (de ex. a văzut o stea căzătoare și își poate pune o dorință) – 2 p','explicarea motivului – 2 p (adecvat) / 1 p (încercare sau doar copierea unei secvențe)','corectitudinea exprimării (0–2 greșeli) – 1 p','respectarea limitei de 1–3 enunțuri – 1 p']},
+    q7:{list:['numirea trăsăturii (de ex. prezentarea unor întâmplări, existența unui narator, a personajelor) – 2 p','prezentarea ei pe baza textului 2 – 2 p / 1 p (încercare)','corectitudinea exprimării – 1 p','respectarea limitei de 20–40 de cuvinte – 1 p']},
+    q8:{list:['o asemănare de conținut (de ex. ambele texte vorbesc despre pisici / despre grija față de ele) – 3 p','o deosebire de conținut (de ex. textul 1 oferă informații reale despre pisici, textul 2 spune o întâmplare cu o fetiță și un pui de pisică) – 3 p']},
+    q9:{list:['formularea răspunsului (da/nu) – 1 p','precizarea unui motiv – 1 p; explicarea lui – 1 p','o secvență relevantă din textul 2 (citat sau parafrază) – 1 p','corectitudinea exprimării – 1 p','minimum 30 de cuvinte – 1 p']},
+    q10:{txt:'Sensul 1: „A lucra pământul spre a-l face să dea roade. ♦ A semăna plante; a îngriji și a recolta plante agricole.” Se acceptă și transcrierea parțială a sensului 1 (2 p).'},
+    q11:{radio:'b2',ans:'c',txt:'Răspuns corect: c – „încerca” (2 p).'},
+    q12:{radio:'b3',ans:'b',txt:'Răspuns corect: b – odihnea / obosea (2 p).'},
+    q13:{list:['identificarea adverbului: încet – 1 p','enunț logic – 1 p','folosirea lui „încet” ca adjectiv (de ex. „Am un ritm încet la alergare.”) – 1 p','corectitudinea exprimării – 1 p']},
+    q14:{txt:'Răspuns: „pisica a cucerit inima omului”. 0 greșeli = 4 p; 1 greșeală = 3 p; 2 = 2 p; 3 = 1 p; 4 sau mai multe = 0 p.'},
+    q15:{list:['buturuga – complement circumstanțial de loc','lemnele – complement direct','făceau – predicat verbal','casei – atribut substantival','câte 1 p pentru fiecare']},
+    q16:{fill:{b7a:'porțiile',b7b:'uscată',b7c:'să crească'},txt:'(1) porțiile, (2) uscată, (3) să crească – câte 2 p.'},
+    q17:{list:['dorința potrivită contextului – 2 p / 1 p (parțial)','coerența enunțului – 1 p','verb la condițional-optativ (de ex. „aș vrea”) – 1 p; subliniat – 1 p','substantiv în vocativ (de ex. „Stea căzătoare,”, „Mamă,”) – 1 p; subliniat – 1 p','corectitudinea exprimării – 1 p']},
+    q18:{list:['numirea unei valori din textul 1 (de ex. grija față de animale, prietenia, respectul pentru natură) – 1 p','ilustrarea ei cu un exemplu din text – 1 p','raportarea la experiența culturală (literatură, artă, tradiții, personalități) sau personală într-un context cultural – 2 p (doar experiență personală fără context cultural – 1 p)','un exemplu din acea experiență, relevant pentru valoare – 1 p','minimum 30 de cuvinte – 1 p']},
+    q19:{list:['Conținut (10 p): două trăsături – 2 × 1 p; câte o secvență comentată pentru fiecare – 2 × 2 p (comentariu parțial – 1 p); două mijloace diferite de caracterizare – 2 × 1 p; corelarea unei valori a personajului cu o valoare personală – 1 p; justificarea – 1 p','Exemple de trăsături: harnică (taie și cară lemne, deși e mică), miloasă / grijulie (îl apără pe Bebe și îi dă din mâncarea ei), politicoasă / recunoscătoare (le mulțumește părinților)','Mijloace: caracterizare directă (de narator: „Maria era slăbuță”) și indirectă (fapte, vorbe, gesturi)','Redactare (4 p): unitatea compoziției, coerența, registrul și stilul adecvate, corectitudinea (0–2 greșeli) – câte 1 p; se acordă doar la minimum 70 de cuvinte']},
+  };
+  const norm=v=>(v||'').toLowerCase().replace(/[„”"'.,!]/g,'').replace(/ş/g,'ș').replace(/ţ/g,'ț').replace(/\s+/g,' ').trim();
+  const keyBoxes={};
+  let keyVisible=false;
+  document.querySelectorAll('.q').forEach((q,i)=>{
+    const k=KEY['q'+(i+1)]; if(!k)return;
+    const box=document.createElement('div');box.className='key';box.hidden=true;
+    box.innerHTML='<b class="h">Barem</b>'+(k.txt?`<div>${k.txt}</div>`:'')+(k.list?'<ul>'+k.list.map(x=>`<li>${x}</li>`).join('')+'</ul>':'')+'<div class="verdict"></div>';
+    q.querySelector('.body').appendChild(box);keyBoxes['q'+(i+1)]=box;
+  });
+  function autoScores(){const out={};
+    for(const [q,k] of Object.entries(KEY)){
+      if(k.radio){const c=document.querySelector(`input[name="${k.radio}"]:checked`);out[q]=c&&c.value===k.ans?2:0}
+      else if(k.tf){out[q]=Object.entries(k.tf).filter(([n,v])=>{const c=document.querySelector(`input[name="${n}"]:checked`);return c&&c.value===v}).length}
+      else if(k.fill){out[q]=Object.entries(k.fill).filter(([id,v])=>norm($(id).value)===norm(v)).length*2}
+    }return out}
+  function renderKey(){
+    const show=teacher||keyVisible, sc=autoScores();
+    document.querySelectorAll('.right,.wrong').forEach(e=>e.classList.remove('right','wrong'));
+    for(const [q,box] of Object.entries(keyBoxes)){
+      box.hidden=!show; const k=KEY[q], v=box.querySelector('.verdict'); v.textContent='';v.className='verdict';
+      if(!show)continue;
+      if(k.radio){const c=document.querySelector(`input[name="${k.radio}"]:checked`);
+        document.querySelectorAll(`input[name="${k.radio}"]`).forEach(r=>{if(r.value===k.ans)r.closest('label').classList.add('right');else if(r.checked)r.closest('label').classList.add('wrong')});
+        if(c){v.textContent=c.value===k.ans?'✓ Corect':'✗ Greșit';v.classList.add(c.value===k.ans?'r':'w')}}
+      if(k.tf){Object.entries(k.tf).forEach(([n,ans])=>{const c=document.querySelector(`input[name="${n}"]:checked`);
+          if(c)c.closest('td').classList.add(c.value===ans?'right':'wrong')});
+        v.textContent=`Enunțuri corecte: ${sc[q]} din 6`;v.classList.add(sc[q]===6?'r':'w')}
+      if(k.fill){v.textContent=`Forme corecte: ${sc[q]/2} din 3`;v.classList.add(sc[q]===6?'r':'w')}
+    }}
+
+  /* --- panou de evaluare pentru fiecare cerință --- */
+  const grades=[];
+  document.querySelectorAll('.q').forEach((q,i)=>{
+    const max=parseInt((q.querySelector('.pts')||{}).textContent)||0;
+    const key='q'+(i+1);
+    const box=document.createElement('div');box.className='grade';box.hidden=true;
+    box.innerHTML=`<span class="lbl">Profesor</span>
+      <input type="number" min="0" max="${max}" step="1" id="p-${key}" aria-label="Punctaj acordat" class="teacher-only" hidden>
+      <span class="max" data-pts></span>
+      <textarea id="n-${key}" class="teacher-only" placeholder="Observație pentru elev" hidden></textarea>
+      <span class="ro" data-note></span>`;
+    q.querySelector('.body').appendChild(box);
+    grades.push({key,max,box,pts:box.querySelector('input'),note:box.querySelector('textarea'),
+      ptsRo:box.querySelector('[data-pts]'),noteRo:box.querySelector('[data-note]')});
+  });
+  const MAXSUM=grades.reduce((a,g)=>a+g.max,0);
+  let teacher=false, evalData={scores:{},notes:{},showKey:false};
+  function renderGrades(){
+    let sum=0,any=false;
+    grades.forEach(g=>{
+      const sc=evalData.scores?.[g.key], nt=evalData.notes?.[g.key]||'';
+      if(sc!=null&&sc!==''){sum+=+sc;any=true}
+      if(teacher){
+        g.box.hidden=false;
+        if(document.activeElement!==g.pts)g.pts.value=sc??'';
+        if(document.activeElement!==g.note)g.note.value=nt;
+        g.ptsRo.textContent='/ '+g.max+' p';g.noteRo.textContent='';
+      }else{
+        const has=(sc!=null&&sc!=='')||nt;
+        g.box.hidden=!has;
+        g.ptsRo.textContent=(sc!=null&&sc!=='')?`${sc} / ${g.max} p`:'';
+        g.noteRo.textContent=nt;
+      }
+    });
+    if(any||teacher){totalEl.hidden=false;totalEl.textContent=`Punctaj: ${sum} / ${MAXSUM} + 10 din oficiu = ${sum+10}`}
+    else totalEl.hidden=true;
+  }
+
+  /* --- scriere coalescentă: o singură scriere pe document odată --- */
+  function writer(fn){let timer=null,busy=false,again=false;
+    async function run(){if(busy){again=true;return}busy=true;
+      try{await fn();status.textContent='Salvat și sincronizat.'}
+      catch(e){status.textContent=(e&&(e.code==='permission_denied'||e.code==='not_granted'))?'Nu ai drept de scriere: cere profesorului acces de editare.':'Salvarea nu a reușit. Verifică conexiunea.'}
+      busy=false;if(again){again=false;run()}}
+    return ()=>{clearTimeout(timer);timer=setTimeout(run,700)}}
+
+  /* --- mod local (fără sincronizare) --- */
+  function localMode(){
+    role.textContent='Test';
+    modeText.textContent='Răspunsurile tale se păstrează în acest browser. Baremul îl deschide profesorul, la final.';
+    try{apply(JSON.parse(localStorage.getItem(LKEY)||'{}'))}catch(e){recount()}
+    const save=()=>{try{localStorage.setItem(LKEY,JSON.stringify(collect()));status.textContent='Salvat în acest browser.'}catch(e){status.textContent='Salvarea automată nu este disponibilă.'}};
+    els.forEach(el=>el.addEventListener(el.type==='radio'?'change':'input',()=>{if(el.dataset.min)count(el);save()}));
+    setupClear(()=>{try{localStorage.removeItem(LKEY)}catch(e){}apply({});});
+    els.forEach(el=>el.addEventListener(el.type==='radio'?'change':'input',renderKey));
+    const sk=$('showKey');sk.closest('.teacher-only').hidden=false;$('autoScore').hidden=true;
+    sk.textContent='Arată baremul';
+    const CODE='EC2026'; /* schimbă aici codul profesorului */
+    const codeIn=$('code');
+    sk.onclick=()=>{
+      if(!keyVisible&&codeIn.value.trim()!==CODE){status.textContent='Cod greșit. Baremul poate fi deschis doar de profesor.';codeIn.focus();return}
+      keyVisible=!keyVisible;codeIn.value='';codeIn.hidden=keyVisible;
+      sk.setAttribute('aria-pressed',String(keyVisible));sk.textContent=keyVisible?'Ascunde baremul':'Arată baremul';
+      status.textContent=keyVisible?'Baremul este afișat.':'Baremul a fost ascuns.';renderKey()};
+  }
+
+  /* --- ștergere cu confirmare în pagină --- */
+  function setupClear(doClear){
+    const clear=$('clear'),ok=$('confirm');
+    clear.onclick=()=>{ok.hidden=!ok.hidden;clear.textContent=ok.hidden?'Șterge răspunsurile':'Renunță'};
+    ok.onclick=async()=>{ok.hidden=true;clear.textContent='Șterge răspunsurile';await doClear();status.textContent='Răspunsurile au fost șterse.'};
+  }
+
+  /* --- copiere răspunsuri pentru trimis profesorului --- */
+  function buildText(){
+    const L=[];const v=id=>($(id).value||'').trim()||'—';
+    L.push('EN – Test 1 – Limba și literatura română');
+    L.push('Nume: '+v('nume'));L.push('Școala: '+v('scoala'));L.push('Clasa / data: '+v('clasa'));L.push('');
+    let sect='';
+    document.querySelectorAll('.subject h2, .part, .q').forEach(el=>{
+      if(el.matches('.subject h2')){sect=el.textContent.trim();L.push('=== '+sect.toUpperCase()+' ===');return}
+      if(el.matches('.part')){L.push('--- '+el.textContent.trim()+' ---');return}
+      const n=el.querySelector('.n').textContent.trim();const parts=[];
+      const seen=new Set();
+      el.querySelectorAll('.body > * [data-save], .body > [data-save]').forEach(inp=>{
+        if(inp.type==='radio'){if(seen.has(inp.name))return;seen.add(inp.name);
+          const c=el.querySelector(`input[name="${inp.name}"]:checked`);
+          const row=inp.closest('tr');const lbl=row?row.cells[0].textContent.trim().replace(/\.$/,'')+': ':'';
+          parts.push(lbl+(c?(row?(c.value==='A'?'Adevărat':'Fals'):c.value):'—'));}
+        else{const lab=inp.getAttribute('aria-label')||(inp.labels&&inp.labels[0]?inp.labels[0].textContent.trim():'')||(inp.previousElementSibling&&inp.previousElementSibling.tagName==='SPAN'?inp.previousElementSibling.textContent.trim():'');
+          parts.push((lab?lab.replace(/:$/,'')+': ':'')+((inp.value||'').trim()||'—'));}
+      });
+      L.push(n+' '+(parts.length===1?parts[0]:'\n   '+parts.join('\n   ')));
+    });
+    return L.join('\n');
+  }
+  $('copyAll').onclick=async()=>{
+    const t=buildText(),out=$('copyOut');out.value=t;
+    try{await navigator.clipboard.writeText(t);out.hidden=true;status.textContent='Copiat! Lipește textul (Ctrl+V) într-un mesaj către profesor.'}
+    catch(e){out.hidden=false;out.focus();out.select();status.textContent='Selectează textul de mai jos, copiază-l (Ctrl+C) și trimite-l profesorului.'}
+  };
+
+  recount();
+  (async()=>{
+    localMode();return;
+    const cl=window.claude;
+    const [db,user]=await Promise.all([cl.use('db'),cl.use('user')]);
+    if(!db){localMode();return}
+    teacher=user?await user.isOwner():false;
+    role.textContent=teacher?'Profesor':'Elev';
+    modeText.textContent=teacher
+      ?'Vezi răspunsurile elevului în timp real. Acordă punctaje, scrie observații și arată-i baremul când termină.'
+      :'Răspunsurile tale apar în timp real la profesor. Punctajele și observațiile profesorului apar sub fiecare cerință.';
+    if(teacher)document.querySelectorAll('.teacher-only').forEach(e=>e.hidden=false);
+    renderGrades();renderKey();
+
+    const ansRef=db.doc('lectie/elev'), evRef=db.doc('lectie/profesor');
+    let answers={};
+    const saveAns=writer(()=>ansRef.set({answers}));
+    ansRef.onSnapshot(s=>{if(s.hasPendingWrites)return;answers=(s.exists&&s.data().answers)||{};apply(answers)},
+      ()=>{status.textContent='Sincronizarea s-a întrerupt. Reîncarcă pagina.'});
+    els.forEach(el=>el.addEventListener(el.type==='radio'?'change':'input',()=>{
+      if(el.dataset.min)count(el);answers=collect();renderKey();status.textContent='Se salvează…';saveAns()}));
+
+    const saveEv=writer(()=>evRef.set(evalData));
+    evRef.onSnapshot(s=>{if(s.hasPendingWrites)return;evalData=(s.exists&&s.data())||{scores:{},notes:{}};
+      evalData={scores:{...(evalData.scores||{})},notes:{...(evalData.notes||{})},showKey:!!evalData.showKey};
+      keyVisible=evalData.showKey;$('showKey').setAttribute('aria-pressed',String(keyVisible));
+      $('showKey').textContent=keyVisible?'Ascunde baremul elevului':'Arată baremul elevului';renderGrades();renderKey()},()=>{});
+    if(teacher){
+      $('showKey').onclick=()=>{evalData.showKey=!evalData.showKey;keyVisible=evalData.showKey;
+        $('showKey').setAttribute('aria-pressed',String(keyVisible));$('showKey').textContent=keyVisible?'Ascunde baremul elevului':'Arată baremul elevului';saveEv()};
+      $('autoScore').onclick=()=>{Object.assign(evalData.scores,autoScores());renderGrades();saveEv();status.textContent='Itemii închiși au fost punctați automat.'};
+    }
+    if(teacher)grades.forEach(g=>{
+      g.pts.addEventListener('input',()=>{let v=g.pts.value;if(v!==''){v=Math.max(0,Math.min(g.max,Math.round(+v)))}
+        if(v==='')delete evalData.scores[g.key];else evalData.scores[g.key]=v;renderGrades();saveEv()});
+      g.note.addEventListener('input',()=>{if(g.note.value)evalData.notes[g.key]=g.note.value;else delete evalData.notes[g.key];saveEv()});
+    });
+
+    setupClear(async()=>{answers={};apply({});try{await ansRef.set({answers:{}})}catch(e){}
+      if(teacher){evalData={scores:{},notes:{},showKey:false};keyVisible=false;renderGrades();try{await evRef.set(evalData)}catch(e){}}});
+    $('clear').textContent='Șterge răspunsurile';
+    if(teacher)$('clear').title='Șterge răspunsurile și evaluarea, pentru un elev nou';
+  })();
+})();
+</script>
+</body>
+</html>
